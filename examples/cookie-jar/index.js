@@ -43,7 +43,10 @@ app.post('/login', async (req, res) => {
   );
 
   if (user) {
-    res.cookie('username', username);
+    res.cookie('username', username, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+    });
     res.redirect('/profile');
   } else {
     res.status(403).redirect('/login?error=Invalid login credentials.');
